@@ -67,7 +67,6 @@ fun CinepolisApp() {
             )
         }
 
-
         Row(
             modifier = Modifier
                 .fillMaxWidth()
