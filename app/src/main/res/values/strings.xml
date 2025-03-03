@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">worldclass</string>
+    <string name="single_text">Hello World From Strings.xml</string>
+    <string name="insum_text">lorem ipsum es simplemente el texto de relleno From Strings.xml</string>
 </resources>
