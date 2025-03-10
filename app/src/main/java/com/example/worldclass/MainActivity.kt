@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.worldclass.ui.theme.WorldclassTheme
+import com.example.worldclass.ui.theme.screens.ComponentsScreen
 import com.example.worldclass.ui.theme.screens.HomeScreen
 import com.example.worldclass.ui.theme.screens.MainMenuScreen
 import com.example.worldclass.ui.theme.screens.TestScreen
@@ -44,6 +45,7 @@ class MainActivity : ComponentActivity() {
             composable("Main_Menu") { MainMenuScreen(navController) }
             composable("Home_Screens") { HomeScreen(navController) }
             composable("TextScreen") { TestScreen(navController) }
+            composable("components_screen"){ ComponentsScreen(navController) }
 
         }
     }
