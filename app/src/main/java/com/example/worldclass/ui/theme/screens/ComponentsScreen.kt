@@ -325,7 +325,6 @@ fun InputChipExample (
     )
 }
 
-
     //@Preview(showBackground = true)
     @Composable
     fun Sliders () {

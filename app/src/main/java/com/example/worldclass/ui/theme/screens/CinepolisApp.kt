@@ -44,7 +44,6 @@ fun CinepolisApp(navController: NavHostController) {
     ) {
 
 
-
         Column(
             modifier = Modifier
                 .fillMaxWidth()
