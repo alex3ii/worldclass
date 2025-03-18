@@ -1,11 +1,18 @@
 package com.example.worldclass.ui.theme.screens
 
+import android.app.DatePickerDialog
 import android.graphics.drawable.Icon
+import androidx.compose.foundation.background
 import androidx.compose.foundation.content.MediaType.Companion.Text
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+//import androidx.compose.foundation.layout.ColumnScopeInstance.weight
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -68,23 +75,39 @@ import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.InputChip
 import com.example.worldclass.Data.Model.MenuModel
 import androidx. compose. foundation. lazy. items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.Call
+import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.window.core.layout.WindowHeightSizeClass
 import androidx.window.core.layout.WindowWidthSizeClass
@@ -92,19 +115,33 @@ import com.example.worldclass.Data.Model.PostCardModel
 import com.example.worldclass.R
 import com.example.worldclass.ui.theme.Components.PostCardComponent
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.delay
+import java.util.Calendar
+import com.google.accompanist.swiperefresh.*
+
+
 
 @Composable
 fun ComponentsScreen (navController:NavHostController) {
     val menuOptions = arrayOf(
         MenuModel(1, "Buttons", "buttons", Icons.Filled.Home),
         MenuModel(2, "Floating Buttons", "floating-buttons", Icons.Filled.AddCircle),
-        MenuModel(3, "Progress", "progress", Icons.Filled.Home),
-        MenuModel(4, "Chips", "chips", Icons.Filled.Home),
-        MenuModel(5, "Sliders", "sliders", Icons.Filled.Home),
-        MenuModel(6, "Switches", "switches", Icons.Filled.Home),
-        MenuModel(7, "Badges", "badges", Icons.Filled.Home),
-        MenuModel(8, "SnackBars", "snackbars", Icons.Filled.Home),
-        MenuModel(9, "AlertDialogs", "alertdialogs", Icons.Filled.Home),
+        MenuModel(3, "Progress", "progress", Icons.Filled.Build),
+        MenuModel(4, "Chips", "chips", Icons.Filled.ShoppingCart),
+        MenuModel(5, "Sliders", "sliders", Icons.Filled.Close),
+        MenuModel(6, "Switches", "switches", Icons.Filled.Check),
+        MenuModel(7, "Badges", "badges", Icons.Filled.Call),
+        MenuModel(8, "SnackBars", "snackbars", Icons.Filled.Create),
+        MenuModel(9, "AlertDialogs", "alertdialogs", Icons.Filled.Email),
+        MenuModel(10, "Top app bar", "bar", Icons.Filled.Search),
+        MenuModel(11, "Inputfields", "inputfields", Icons.Filled.Face),
+        MenuModel(12, "Datepickers", "datepickers", Icons.Filled.DateRange),
+        MenuModel(13, "PulltoRefresh", "pull-to-refresh", Icons.Filled.Lock),
+        MenuModel(14, "BottomSheets", "bottom-sheets", Icons.Filled.LocationOn),
+        MenuModel(15, "SegmentedButtons", "segmented-buttons", Icons.Filled.Warning),
         )
     var option by rememberSaveable { mutableStateOf("Buttons") }
     var drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -176,6 +213,21 @@ fun ComponentsScreen (navController:NavHostController) {
 
             "bar" -> {
                 Bars()
+            }
+            "inputfields" -> {
+                Inputfields()
+            }
+            "datepickers" -> {
+                Datepickers()
+            }
+            "pull-to-refresh" -> {
+                PulltoRefresh()
+            }
+            "bottom-sheets" -> {
+                BottomSheets()
+            }
+            "segmented-buttons" -> {
+                SegmentedButtons()
             }
         }
 
@@ -638,5 +690,186 @@ fun Adaptive(){
         }
 
 
+    }
+}
+@Composable
+fun SegmentedButtons() {
+    var selectedOption by remember { mutableStateOf("Opción 1") }
+
+    val options = listOf("boton 1", "boton 2", "boton 3")
+
+    Row(
+        modifier = Modifier
+            .padding(16.dp)
+            .background(Color.LightGray, shape = RoundedCornerShape(8.dp))
+    ) {
+        options.forEach { option ->
+            Button(
+                onClick = { selectedOption = option },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (selectedOption == option) Color.Blue else Color.White,
+                    contentColor = if (selectedOption == option) Color.White else Color.Black
+                ),
+                shape = RoundedCornerShape(0.dp),
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(option)
+            }
+        }
+    }
+}
+@Composable
+fun Inputfields(){
+    var inputText by rememberSaveable { mutableStateOf ("") }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    )
+    {
+        OutlinedTextField(
+            value = inputText,
+            onValueChange =
+                { inputText = it },
+            label =
+                { Text("Ingresa texto") },
+            modifier = Modifier
+                .fillMaxWidth(0.8f)
+        )
+        Spacer(
+            modifier = Modifier
+                .height(16.dp)
+        )
+        Text(text = "Texto que ingresaste: $inputText", fontSize = 18.sp, color=Color.Magenta)
+    }
+}
+@Composable
+fun Datepickers() {
+    var showDatePicker by rememberSaveable { mutableStateOf(false) }
+    var selectedDate by rememberSaveable { mutableStateOf("") }
+    val context = LocalContext.current
+    val calendar = Calendar.getInstance()
+    val year = calendar.get(Calendar.YEAR)
+    val month = calendar.get(Calendar.MONTH)
+    val day = calendar.get(Calendar.DAY_OF_MONTH)
+    val datePickerDialog = DatePickerDialog(
+        context,
+        { _, selectedYear, selectedMonth, selectedDay ->
+            selectedDate = "$selectedDay/${selectedMonth + 1}/$selectedYear"
+        },
+        year, month, day
+    )
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(
+            onClick = { showDatePicker = true },
+            colors = ButtonDefaults.buttonColors(containerColor = Color.Magenta)
+        ) {
+            Text("Select a date", color = Color.White)
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Text(
+            text = if (selectedDate.isNotEmpty()) "Date you selected: $selectedDate" else "You have not selected a date",
+            fontSize = 18.sp
+        )
+
+        if (showDatePicker) {
+            datePickerDialog.show()
+            showDatePicker = false
+        }
+    }
+}
+@Composable
+fun PulltoRefresh() {
+    var refreshing by remember { mutableStateOf(false) }
+    var items by remember { mutableStateOf(List(10) { "Item ${it + 1}" }) }
+    val refreshState = rememberSwipeRefreshState(refreshing)
+    LaunchedEffect(refreshing) {
+        if (refreshing) {
+            delay(2000)
+            items = List(10) { "New Item ${it + 1}" }
+            refreshing = false
+        }
+    }
+    SwipeRefresh(
+        state = refreshState,
+        onRefresh = { refreshing = true }
+    ) {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(16.dp)
+        ) {
+            items(items) { item ->
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+                ) {
+                    Text(
+                        text = item,
+                        modifier = Modifier.padding(16.dp),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                }
+            }
+        }
+    }
+}
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BottomSheets() {
+    val sheetState = rememberModalBottomSheetState()
+    var showSheet by rememberSaveable { mutableStateOf(false) }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(
+            onClick = { showSheet = true },
+            colors = ButtonDefaults.buttonColors(containerColor = Color.Magenta)
+        ) {
+            Text("Show BottomSheet Function", color = Color.White)
+        }
+
+    }
+
+    if (showSheet) {
+        ModalBottomSheet(
+            onDismissRequest = { showSheet = false },
+            sheetState = sheetState
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(0xFFc750b9))
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "Hello! ",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Button(onClick = { showSheet = false }) {
+                    Text("Close")
+                }
+            }
+        }
     }
 }
