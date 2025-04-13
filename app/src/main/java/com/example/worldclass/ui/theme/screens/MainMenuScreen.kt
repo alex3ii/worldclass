@@ -3,8 +3,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -35,6 +35,25 @@ fun MainMenuScreen(navController:NavHostController) {
             onClick = { navController.navigate("CinepolisApp") }
         )
         { Text("go to cinepolis screen") }
+        Button(
+            onClick = {navController.navigate("LoginScreen") }
+
+        ){
+        Text("Go to Login Screen")
+        }
+        Button(
+            onClick = {navController.navigate("Manage_Account_Screen")}
+        )
+        {
+            Text("Go to Manage Account Screen")
+        }
+        Text("Go to Add Account Screen")
+    }
+    Button(
+        onClick = {navController.navigate("favorite_account_screen")}
+    )
+    {
+        Text("Go to Favorites Screen")
 
     }
 
