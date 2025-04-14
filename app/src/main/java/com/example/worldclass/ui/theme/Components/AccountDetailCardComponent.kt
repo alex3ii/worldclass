@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Icon
@@ -22,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -95,8 +93,7 @@ fun AccountdetailCardComponent(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         IconButton(
-                            modifier = Modifier
-                                .background(MaterialTheme.colorScheme.secondary),
+
                             onClick = {
                                 onSaveClick()
                             },
@@ -107,8 +104,6 @@ fun AccountdetailCardComponent(
                             )
                         }
                         IconButton(
-                            modifier = Modifier
-                                .background(MaterialTheme.colorScheme.secondary),
                             onClick = {
                                 navController.navigate("manageAcScreen/${id}")
                             }

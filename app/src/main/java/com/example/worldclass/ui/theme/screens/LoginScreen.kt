@@ -14,10 +14,12 @@ import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
 import coil.compose.AsyncImage
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.worldclass.Data.Model.UserModel
@@ -43,6 +46,7 @@ fun LoginScreen(navHostController: NavHostController){
     Column (
         modifier = Modifier
             .fillMaxSize()
+            .background(MaterialTheme.colorScheme.secondary)
             .verticalScroll((rememberScrollState())),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly
@@ -56,9 +60,13 @@ fun LoginScreen(navHostController: NavHostController){
 fun LoginForm(viewModel: UserViewModel = viewModel (), navController: NavHostController){
     val context= LocalContext.current
     Card(
-        modifier = Modifier. padding(40.dp,0.dp)
+        colors = CardDefaults.cardColors(
+            contentColor = Color.White,
+            containerColor=MaterialTheme.colorScheme.tertiary
+        ),
+        modifier=Modifier.padding(40.dp,0.dp)
 
-    ) {
+    ){
         Column (
             modifier = Modifier.padding(20.dp)
         ){
@@ -68,7 +76,7 @@ fun LoginForm(viewModel: UserViewModel = viewModel (), navController: NavHostCon
             AsyncImage(
                 model = "https://logosmarcas.net/wp-content/uploads/2020/12/GitHub-Simbolo.png",
                 contentDescription = "Git Hub Logo",
-                contentScale = ContentScale.Fit
+                contentScale = ContentScale.Fit,
 
             )
             OutlinedTextField(
@@ -76,8 +84,17 @@ fun LoginForm(viewModel: UserViewModel = viewModel (), navController: NavHostCon
                 value = user,
                 maxLines = 1,
                 onValueChange = { user = it },
-                label = { Text("User")}
+                label = { Text("User")},
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = MaterialTheme.colorScheme.tertiary,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.primary,
+                    unfocusedContainerColor = Color.Transparent,
+                    unfocusedTextColor = Color.Black,
+                    focusedTextColor = Color.White,
+                    unfocusedLabelColor = Color.Black,
+                    focusedLabelColor = Color.White
 
+            )
             )
 
             OutlinedTextField(
@@ -85,28 +102,43 @@ fun LoginForm(viewModel: UserViewModel = viewModel (), navController: NavHostCon
                 value = password,
                 maxLines = 1,
                 onValueChange = { password = it },
-                label = { Text("Password")}
+                label = { Text("Password")},
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = MaterialTheme.colorScheme.tertiary,
+                    unfocusedBorderColor = MaterialTheme.colorScheme.primary,
+                    unfocusedContainerColor = Color.Transparent,
+                    unfocusedTextColor = Color.Black,
+                    focusedTextColor = Color.White,
+                    unfocusedLabelColor = Color.Black,
+                    focusedLabelColor = Color.White
 
             )
+            )
             FilledTonalButton(
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.secondary
-                ),
-                modifier = Modifier.fillMaxWidth().padding(10.dp,10.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(0.dp, 10.dp),
                 shape = CutCornerShape(4.dp),
-                onClick = { TryLogin(user,password,context, viewModel, navController ) }
+                //need to send and receive user, password and context
+                onClick = {TryLogin(user, password, context, viewModel, navController)},
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = Color.DarkGray,
+                    containerColor = MaterialTheme.colorScheme.secondary
+
+                )
+
             ) {
                 Text("LOG IN")
             }
-            OutlinedButton (
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.Transparent,
-                    contentColor = MaterialTheme.colorScheme.primary
-                ),
-                modifier = Modifier.fillMaxWidth().padding(0.dp,10.dp),
+            OutlinedButton ( modifier = Modifier
+                .fillMaxWidth()
+                .padding(0.dp, 10.dp),
                 shape = CutCornerShape(4.dp),
-                onClick = {}
+                onClick = {},
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = Color.Black,
+                    containerColor = MaterialTheme.colorScheme.primary
+                )
             ) {
                 Text("CREATE ACCOUNT")
             }
@@ -135,7 +167,7 @@ fun TryLogin(
             Log.d("debug", "LOGIN STATUS:$loginStatus")
 
             if (loginStatus == "success") {
-                navController.navigate("Home_Screen") {
+                navController.navigate("AccountsScreen") {
 
                     popUpTo(navController.graph.startDestinationId) {
                         inclusive = true

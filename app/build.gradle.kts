@@ -39,7 +39,7 @@ android {
         compose = true
     }
 }
-
+dependencies{
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -60,25 +60,26 @@ dependencies {
     // retrofit
 
 
-    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
 
 
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation(libs.retrofit)
 
 
-    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+    implementation(libs.okhttp)
 
 
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+    implementation(libs.kotlinx.serialization.json.v163)
 
 
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation(libs.converter.gson)
 
     val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
 
+    testImplementation(libs.junit)
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -86,4 +87,9 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+}
+}
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
 }
