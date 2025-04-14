@@ -1,4 +1,4 @@
-package com.example.worldclass.Class
+package com.example.worldclass.Data
 
 fun main (){
 //variables numericas
