@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.worldclass.R
-import com.example.worldclass.ui.theme.screens.ModifierExample2
+
 
 @Composable
 fun AccountCardComponent(
@@ -39,14 +39,14 @@ fun AccountCardComponent(
             .padding(3.dp)
 
     ){
-        Row{
+        Row(){
             AsyncImage(
                 modifier=Modifier
                     .width(80.dp)
                     .height(80.dp)
                     .padding(10.dp),
                 model = imageURL,
-                contentDescription = "",
+                contentDescription = "account logo",
                 error = painterResource(R.drawable.ic_launcher_foreground),
                 contentScale = ContentScale.FillBounds,
 

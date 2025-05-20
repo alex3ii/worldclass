@@ -64,6 +64,24 @@ fun MainMenuScreen(navController:NavHostController) {
         ) {
             Text("Go to Manage account screen")
         }
+        Button(
+            onClick = { navController.navigate("apiPush")}
+
+        ) {
+            Text("Go to Push notifications Api ")
+        }
+        Button(
+            onClick = { navController.navigate("camera-api")}
+
+        ) {
+            Text("Go to camera screen ")
+        }
+        Button(
+            onClick = { navController.navigate("ContactsCalendar")}
+
+        ) {
+            Text("Go to Contacts and calendar Api ")
+        }
     }
 
 }
