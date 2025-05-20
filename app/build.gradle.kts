@@ -40,6 +40,7 @@ android {
     }
 }
 dependencies{
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -87,6 +88,25 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    val cameraxVersion = "1.3.1"
+    implementation("androidx.camera:camera-core:$cameraxVersion") // Lógica base
+    implementation("androidx.camera:camera-camera2:$cameraxVersion")// Conexión con la API Camera2
+    implementation("androidx.camera:camera-lifecycle:$cameraxVersion")
+    implementation("androidx.camera:camera-view:$cameraxVersion") // Necesario para la prewiew
+    implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation ("com.google.accompanist:accompanist-permissions:0.34.0")
+    implementation("androidx.camera:camera-video:$cameraxVersion")
+    implementation ("io.coil-kt:coil-compose:2.2.2")
+
+    implementation("androidx.work:work-runtime-ktx:2.10.1")
+    implementation ("androidx.work:work-runtime:2.10.1")
+
+
+    implementation(libs.androidx.work.runtime.ktx)
+    implementation (libs.androidx.work.runtime)
+
+
 
 }
 }

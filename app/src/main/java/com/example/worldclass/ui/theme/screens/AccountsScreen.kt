@@ -93,7 +93,7 @@ fun AccountsScreen(
         ModalBottomSheet(
             modifier = Modifier
                 .fillMaxHeight(),
-            contentColor = MaterialTheme.colorScheme.background,
+            contentColor = MaterialTheme.colorScheme.secondary,
             containerColor = MaterialTheme.colorScheme.background,
             onDismissRequest = {
                 showBottomSheet = false
