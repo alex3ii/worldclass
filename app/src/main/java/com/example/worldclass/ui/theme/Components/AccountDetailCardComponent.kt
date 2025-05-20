@@ -32,7 +32,7 @@ fun AccountdetailCardComponent(
     id:Int,
     name: String,
     username: String,
-    imageURL: String,
+    imageURL: String?,
     password:String,
     description: String,
     onSaveClick: () -> Unit,
@@ -43,8 +43,7 @@ fun AccountdetailCardComponent(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(200.dp)
-                .padding(10.dp),
+                .height(200.dp),
             Arrangement.Absolute.SpaceAround,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -52,7 +51,7 @@ fun AccountdetailCardComponent(
                 modifier = Modifier
                     .width(100.dp)
                     .height(100.dp),
-                model = "",
+                model = imageURL,
                 error = painterResource(R.drawable.jjk2),
                 contentDescription = "account logo",
                 contentScale = ContentScale.FillBounds
@@ -105,7 +104,7 @@ fun AccountdetailCardComponent(
                         }
                         IconButton(
                             onClick = {
-                                navController.navigate("manageAcScreen/${id}")
+                                navController.navigate("Manage_Account_Screen/${id}")
                             }
                         ) {
                             Icon(imageVector = Icons.Filled.Edit, contentDescription = "Update")
