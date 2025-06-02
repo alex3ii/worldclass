@@ -10,8 +10,6 @@ object DatabaseProvider {
         return instance ?: synchronized(this) {
             val db = Room.databaseBuilder(
                 context.applicationContext,
-                //if database does not exist, it will be created with the name
-                //shown above between quotation marks
                 AppDatabase::class.java, "app-db"
             ).build()
             instance = db

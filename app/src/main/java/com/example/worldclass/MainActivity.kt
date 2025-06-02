@@ -15,6 +15,7 @@ import androidx.navigation.navArgument
 import com.example.worldclass.Data.database.AppDatabase
 import com.example.worldclass.Data.database.DatabaseProvider
 import com.example.worldclass.ui.theme.WorldclassTheme
+import com.example.worldclass.ui.theme.screens.AccountsScreen
 import com.example.worldclass.ui.theme.screens.AppScreen
 import com.example.worldclass.ui.theme.screens.CinepolisApp
 import com.example.worldclass.ui.theme.screens.ComponentsScreen
@@ -71,19 +72,12 @@ class MainActivity : ComponentActivity() {
             composable("components_screen") { ComponentsScreen(navController) }
             composable("CinepolisApp") { CinepolisApp(navController) }
             composable("LoginScreen") { LoginScreen(navController) }
-           // composable("accountsScreen") { AccountsScreen(navController) }
-            composable("accountsScreen") { ScreenCamara(navController) }
-
-            composable("Manage_Account_Screen") { ManageAccountScreen(navController = navController) }
-            composable(
-                route = "Manage_Account_Screen/{id}",
-                arguments = listOf(navArgument("id") { defaultValue = -1 })
-            ) { backStackEntry ->
+            composable("accountsScreen") { AccountsScreen(navController) }
+            composable( "Manage_Account_Screen?id={id}"){ backStackEntry ->
                 val id = backStackEntry.arguments?.getString("id")?.toIntOrNull() ?: -1
                 ManageAccountScreen(
                     navController = navController,
-                    accountId = id
-                )
+                    id = id)
             }
             composable("favorite_account_screen") { FavoriteAccountsScreen(navController) }
             composable("apiPush") { NotificationScreenPreview(navController) }

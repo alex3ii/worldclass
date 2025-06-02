@@ -65,6 +65,12 @@ fun MainMenuScreen(navController:NavHostController) {
             Text("Go to Manage account screen")
         }
         Button(
+            onClick = { navController.navigate("favorite_account_screen") }
+
+        ) {
+            Text("Go to favotite account screen")
+        }
+        Button(
             onClick = { navController.navigate("apiPush")}
 
         ) {

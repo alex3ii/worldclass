@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -52,44 +53,77 @@ fun FavoriteAccountCard(
             AsyncImage(
                 model = imageURL,
                 contentDescription = "Account logo",
-                contentScale = ContentScale.Crop,
+                contentScale = ContentScale.Fit,
+                error = painterResource(R.drawable.jjk2),
                 modifier = Modifier
-                    .size(100.dp),
-                error = painterResource(R.drawable.jjk2)
+                    .width(100.dp)
+                    .height(100.dp)
+
+            )
+            Text(
+                text = name,
+                modifier = Modifier.weight(1f),
+                fontWeight = FontWeight.Bold
             )
 
-            Spacer(modifier = Modifier.width(10.dp))
+            IconButton(onClick = {onDeleteClick()}) {
+                Icon(imageVector = Icons.Filled.Delete, contentDescription = "Delete Account")
+            }
 
-            Column(
-                verticalArrangement = Arrangement.Center,
-                modifier = Modifier.weight(1f)
-            ) {
-                Text(
-                    text = name,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    text = username,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Normal
-                )
-                Text(
-                    text = password,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Normal
-                )
-                Text(
-                    text = description,
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Light
-                )
-            }
-            IconButton(onClick = {
-                onDeleteClick()
-            }) {
-                Icon(imageVector = Icons.Filled.Delete, contentDescription = "Delete")
-            }
+        }
+        Row (modifier = Modifier
+            .fillMaxWidth()
+            .padding(5.dp),
+            Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Username",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Medium
+            )
+            Text(
+                text = username,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Medium
+            )
+
+        }
+        Row (modifier = Modifier
+            .fillMaxWidth()
+            .padding(5.dp),
+            Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Password",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Medium
+            )
+            Text(
+                text = password,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Medium
+            )
+
+        }
+        Row (modifier = Modifier
+            .fillMaxWidth()
+            .padding(5.dp),
+            Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Description:",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Medium
+            )
+            Text(
+                text = description,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Medium
+            )
+
         }
     }
 }
