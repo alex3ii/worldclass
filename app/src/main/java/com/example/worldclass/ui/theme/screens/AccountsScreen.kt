@@ -1,6 +1,7 @@
 package com.example.worldclass.ui.theme.screens
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -29,7 +30,7 @@ import com.example.worldclass.Data.database.AppDatabase
 import com.example.worldclass.Data.database.DatabaseProvider
 import com.example.worldclass.ui.theme.Components.AccountCardComponent
 import com.example.worldclass.ui.theme.Components.TopBarComponent
-import com.example.worldclass.ui.theme.Components.AccountdetailCardComponent
+import com.example.worldclass.ui.theme.Components.AccountDetailCardComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -48,6 +49,8 @@ fun AccountsScreen(
     var accountDetail by remember { mutableStateOf<AccountModel?>(null) }
     val db: AppDatabase = DatabaseProvider.getDatabase(LocalContext.current)
     val accountDao = db.accountDao()
+
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .background(MaterialTheme.colorScheme.background)
@@ -100,24 +103,35 @@ fun AccountsScreen(
             },
             sheetState = sheetState,
         ) {
-            AccountdetailCardComponent(
-                accountDetail?.id ?: 0,
+            AccountDetailCardComponent(                accountDetail?.id ?: 0,
                 accountDetail?.name ?: "",
                 accountDetail?.username ?: "",
                 accountDetail?.password ?: "",
                 accountDetail?.imageURL ?: "",
                 accountDetail?.description ?: "",
+                navController = navController,
                 onSaveClick = {
-                    CoroutineScope(Dispatchers.IO).launch {
+                    CoroutineScope(Dispatchers.IO).launch { //Para conectarnos con la base de datos interna y realizar operaciones
                         try {
                             accountDetail?.let { accountDao.insert(it.toAccountEntity()) }
-                            Log.d("debug-db", "Account inserted successfully")
-                        } catch (exception: Exception) {
-                            Log.d("debug-db", "ERROR: $exception")
+                            Log.d("debug-db","account inserted successfully")
+                        }catch (exception: Exception){
+                            Log.d("debug-db","Error: $exception")
                         }
                     }
-                    showBottomSheet = false
-                }, navController
+                },
+                onDeleteClick = { id ->
+                    viewModel.deleteAccount(id) { response ->
+                        if (response != null) {
+                            Log.d("debug-delete", "Cuenta con ID $id eliminada correctamente")
+                            Toast.makeText(context, "Cuenta eliminada", Toast.LENGTH_SHORT).show()
+                        } else {
+                            Log.d("debug-delete", "Error al eliminar la cuenta con ID $id")
+                            Toast.makeText(context, "Error al eliminar", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                }
             )
         }
     }
