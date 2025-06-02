@@ -51,7 +51,7 @@ fun AccountCardComponent(
                 contentScale = ContentScale.FillBounds,
 
                 )
-            Row {
+
                 Column{
                     Text(
                         text = name,
@@ -88,4 +88,3 @@ fun AccountCardComponent(
             }
         }
     }
-}

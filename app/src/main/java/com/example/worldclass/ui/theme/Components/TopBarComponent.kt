@@ -19,10 +19,10 @@ fun TopBarComponent(title: String, navController: NavController, location:String
         title = {Text(title)},
         actions = {
             if (location == "accountsScreen") {
-                IconButton(onClick = { navController.navigate("manageAcScreen") }) {
+                IconButton(onClick = { navController.navigate("manage_account_screen") }) {
                     Icon(imageVector = Icons.Filled.Add, contentDescription = "Add")
                 }
-                IconButton(onClick = { navController.navigate("favAcScreen") }) {
+                IconButton(onClick = { navController.navigate("favorite_account_screen") }) {
                     Icon(imageVector = Icons.Filled.Star, contentDescription = "Favorites")
                 }
             }

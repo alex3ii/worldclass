@@ -67,7 +67,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.material3.FilterChip
 import com.example.worldclass.Data.Model.MenuModel
-import androidx.compose. foundation. lazy. items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Build
@@ -108,9 +108,11 @@ import com.example.worldclass.ui.theme.Components.PostCardComponent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.example.worldclass.ui.theme.Components.PostCardCompactComponent
 import kotlinx.coroutines.delay
 import java.util.Calendar
 import com.google.accompanist.swiperefresh.*
+import androidx.compose.foundation.lazy.items
 
 
 
@@ -630,56 +632,72 @@ fun Bars(){
     }
 }
 @Composable
-fun Adaptive(){
-    var windowSize = currentWindowAdaptiveInfo().windowSizeClass
-    var height = currentWindowAdaptiveInfo().windowSizeClass.windowHeightSizeClass
-    var width = currentWindowAdaptiveInfo().windowSizeClass.windowWidthSizeClass
-    // compact width<600dp phone portrait
-    // Medium width >=600dp <840dp tablet portrait
-    // Expanded width >= 840dp tablet landscape
+fun Adaptive() {
+    val windowSize = currentWindowAdaptiveInfo().windowSizeClass
+    val height = currentWindowAdaptiveInfo().windowSizeClass.windowHeightSizeClass
+    val width = currentWindowAdaptiveInfo().windowSizeClass.windowWidthSizeClass
 
-    // Compact Height <480dp Phone Landscape
-    // Medium Height>=480dp <900dp Tablet Landscape Phone portrait
-    // Expanded Height >=900dp Tablet Portrait
+    // Lista de elementos con peso para ocupar el espacio disponible
+    val arrayPost = arrayOf(
+        PostCardModel(1, "Title1", "Text1", R.drawable.jjk2),
+        PostCardModel(2, "Title2", "Text2", R.drawable.jjk2),
+        PostCardModel(3, "Title3", "Text3", R.drawable.jjk2),
+        PostCardModel(1, "Title4", "Text4", R.drawable.jjk2),
+        PostCardModel(2, "Title5", "Text5", R.drawable.jjk2),
+        PostCardModel(3, "Title6", "Text6", R.drawable.jjk2),
+        PostCardModel(1, "Title7", "Text7", R.drawable.jjk2),
+        PostCardModel(2, "Title8", "Text8", R.drawable.jjk2),
+        PostCardModel(3, "Title9", "Text9", R.drawable.jjk2)
+    )
 
+    // Estado para manejar el refresco
+    var isRefreshing by remember { mutableStateOf(false) }
 
-    Column {
-        Text(windowSize.toString())
-        Text(height.toString())
-        Text(width.toString())
-        val arrayPosts = arrayOf(
-            PostCardModel(1, "Title 1", "Text 1", R.drawable.jjk2),
-            PostCardModel(2, "Title 2", "Text 2", R.drawable.jjk2),
-            PostCardModel(3, "Title 3", "Text 3", R.drawable.jjk2),
-            PostCardModel(4, "Title 4", "Text 4", R.drawable.jjk2),
-            PostCardModel(5, "Title 5", "Text 5", R.drawable.jjk2),
-            PostCardModel(6, "Title 6", "Text 6", R.drawable.jjk2),
-            PostCardModel(7, "Title 7", "Text 7", R.drawable.jjk2),
-            PostCardModel(8, "Title 8", "Text 8", R.drawable.jjk2),
-            PostCardModel(9, "Title 9", "Text 9", R.drawable.jjk2)
-        )
+    // Función para manejar el refresco
+    val onRefresh: () -> Unit = {
+        isRefreshing = true
+        // Simula un retraso de actualización, por ejemplo, recargando los datos.
+        // Aquí deberías llamar a la función que recarga los datos o hace la actualización real
+
+    }
+
+    // Usando SwipeRefresh
+    val swipeRefreshState = rememberSwipeRefreshState(isRefreshing)
+
+    // Llamando la interfaz de usuario dentro de la función composable
+    SwipeRefresh(
+        state = swipeRefreshState,
+        onRefresh = onRefresh,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        // Verificación de tamaños de la ventana
         if (width == WindowWidthSizeClass.COMPACT) {
-            //can use Lazy Row to do the same but in a horizontal layout
             LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
+                modifier = Modifier.fillMaxSize()
             ) {
-                items(arrayPosts) { item ->
-                    PostCardComponent(item.id, item.title, item.text, item.image)
+                items(arrayPost) { item ->
+                    PostCardComponent(
+                        item.id,
+                        item.title,
+                        item.text,
+                        item.image
+                    )
                 }
             }
         } else if (height == WindowHeightSizeClass.COMPACT) {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-            ) {
-                items(arrayPosts) { item ->
-                    PostCardComponent(item.id, item.title, item.text, item.image)
+            if (width == WindowWidthSizeClass.COMPACT) {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    items(arrayPost) { item ->
+                        PostCardCompactComponent( item.id,
+                            item.title,
+                            item.text,
+                            item.image)
+                    }
                 }
             }
         }
-
-
     }
 }
 @Composable

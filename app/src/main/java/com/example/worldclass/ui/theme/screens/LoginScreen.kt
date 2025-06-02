@@ -33,40 +33,41 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
-import coil.compose.AsyncImage
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.example.worldclass.Data.Model.UserModel
 import com.example.worldclass.Data.ViewModel.UserViewModel
 
 
-
 @Composable
-fun LoginScreen(navHostController: NavHostController){
+fun LoginScreen(navController: NavController){
     Column (
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.secondary)
+            .background(MaterialTheme.colorScheme.background)
             .verticalScroll((rememberScrollState())),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly
 
     ){
-        LoginForm(navController = navHostController)
+        LoginForm(navController)
     }
 }
 
 @Composable
-fun LoginForm(viewModel: UserViewModel = viewModel (), navController: NavHostController){
-    val context= LocalContext.current
+fun LoginForm(
+    navController: NavController,
+    viewModel: UserViewModel = viewModel()){
+    val context = LocalContext.current
     Card(
         colors = CardDefaults.cardColors(
             contentColor = Color.White,
-            containerColor=MaterialTheme.colorScheme.tertiary
+            containerColor = MaterialTheme.colorScheme.surface
         ),
-        modifier=Modifier.padding(40.dp,0.dp)
+        modifier = Modifier. padding(40.dp,0.dp)
 
-    ){
+    ) {
         Column (
             modifier = Modifier.padding(20.dp)
         ){
@@ -76,7 +77,7 @@ fun LoginForm(viewModel: UserViewModel = viewModel (), navController: NavHostCon
             AsyncImage(
                 model = "https://logosmarcas.net/wp-content/uploads/2020/12/GitHub-Simbolo.png",
                 contentDescription = "Git Hub Logo",
-                contentScale = ContentScale.Fit,
+                contentScale = ContentScale.Fit
 
             )
             OutlinedTextField(
@@ -86,15 +87,13 @@ fun LoginForm(viewModel: UserViewModel = viewModel (), navController: NavHostCon
                 onValueChange = { user = it },
                 label = { Text("User")},
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = MaterialTheme.colorScheme.tertiary,
                     unfocusedBorderColor = MaterialTheme.colorScheme.primary,
+                    focusedBorderColor = MaterialTheme.colorScheme.secondary,
                     unfocusedContainerColor = Color.Transparent,
-                    unfocusedTextColor = Color.Black,
-                    focusedTextColor = Color.White,
-                    unfocusedLabelColor = Color.Black,
-                    focusedLabelColor = Color.White
+                    unfocusedTextColor = Color.White,
+                    focusedTextColor = Color.White
+                )
 
-            )
             )
 
             OutlinedTextField(
@@ -104,85 +103,58 @@ fun LoginForm(viewModel: UserViewModel = viewModel (), navController: NavHostCon
                 onValueChange = { password = it },
                 label = { Text("Password")},
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedBorderColor = MaterialTheme.colorScheme.tertiary,
                     unfocusedBorderColor = MaterialTheme.colorScheme.primary,
+                    focusedBorderColor = MaterialTheme.colorScheme.secondary,
                     unfocusedContainerColor = Color.Transparent,
-                    unfocusedTextColor = Color.Black,
-                    focusedTextColor = Color.White,
-                    unfocusedLabelColor = Color.Black,
-                    focusedLabelColor = Color.White
-
-            )
-            )
-            FilledTonalButton(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(0.dp, 10.dp),
-                shape = CutCornerShape(4.dp),
-                //need to send and receive user, password and context
-                onClick = {TryLogin(user, password, context, viewModel, navController)},
-                colors = ButtonDefaults.buttonColors(
-                    contentColor = Color.DarkGray,
-                    containerColor = MaterialTheme.colorScheme.secondary
-
+                    unfocusedTextColor = Color.White,
+                    focusedTextColor = Color.White
                 )
 
+            )
+            FilledTonalButton(
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.secondary
+                ),
+                modifier = Modifier.fillMaxWidth().padding(0.dp,10.dp),
+                shape = CutCornerShape(4.dp),
+                onClick = { TryLogin(user,password,context,viewModel, navController)}
             ) {
                 Text("LOG IN")
             }
-            OutlinedButton ( modifier = Modifier
-                .fillMaxWidth()
-                .padding(0.dp, 10.dp),
-                shape = CutCornerShape(4.dp),
-                onClick = {},
+            OutlinedButton (
                 colors = ButtonDefaults.buttonColors(
-                    contentColor = Color.Black,
-                    containerColor = MaterialTheme.colorScheme.primary
-                )
+                    containerColor = Color.Transparent,
+                    contentColor = MaterialTheme.colorScheme.primary
+                ),
+                modifier = Modifier.fillMaxWidth().padding(0.dp,10.dp),
+                shape = CutCornerShape(4.dp),
+                onClick = {}
             ) {
                 Text("CREATE ACCOUNT")
             }
 
         }
     }
-
 }
-fun TryLogin(
-    user:String,
-    password:String,
-    context: Context,
-    viewModel: UserViewModel,
-    navController: NavHostController
-) {
-    if (user == "" || password == "") {
+
+
+fun TryLogin(user: String, password: String, context: Context, viewModel: UserViewModel, navController: NavController){
+    if(user == "" || password == ""){
         Toast.makeText(
             context,
             "User or Password cannot be empty",
             Toast.LENGTH_SHORT
         ).show()
     } else {
-        val user_model = UserModel(0, "", user, password)
-        viewModel.loginAPI(user_model) { jsonResponse ->
+        val user_Model = UserModel(0,"", user, password)
+        viewModel.loginAPI(user_Model){ jsonResponse ->
             val loginStatus = jsonResponse?.get("login")?.asString
-            Log.d("debug", "LOGIN STATUS:$loginStatus")
-
-            if (loginStatus == "success") {
-                navController.navigate("AccountsScreen") {
-
-                    popUpTo(navController.graph.startDestinationId) {
-                        inclusive = true
-                    }
-                }
-            } else {
-
-                Toast.makeText(
-                    context,
-                    "Invalid credentials. Please try again",
-                    Toast.LENGTH_SHORT
-                ).show()
+            Log.d("debug", "LOGIN STATUS: $loginStatus")
+            if(loginStatus == "success"){
+                navController.navigate("accounts_screen")
             }
         }
-
 
     }
 }

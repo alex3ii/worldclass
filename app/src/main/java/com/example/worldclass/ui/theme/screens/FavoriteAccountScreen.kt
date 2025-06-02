@@ -40,7 +40,7 @@ fun FavoriteAccountsScreen(navController: NavController) {
     }
 
     Column (modifier = Modifier.background(MaterialTheme.colorScheme.tertiary)) {
-        TopBarComponent("Favorite Accounts", navController, "favAcScreen")
+        TopBarComponent("Favorite Accounts", navController, "favorite_account_screen")
         val listState = rememberLazyListState()
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
@@ -48,12 +48,12 @@ fun FavoriteAccountsScreen(navController: NavController) {
         ) {
             items(accountsdb) { accountdb ->
                 FavoriteAccountCard(
-                    id = accountdb.id ?: 0,
-                    name = accountdb.name ?: "",
-                    username = accountdb.username ?: "",
-                    password = accountdb.password ?: "",
-                    imageURL = accountdb.imageURL ?: "",
-                    description = accountdb.description ?: "",
+                    accountdb.id ?: 0,
+                accountdb.name ?: "",
+                accountdb.username ?: "",
+                  accountdb.password ?: "",
+                   accountdb.imageURL ?: "",
+                   accountdb.description ?: "",
                     onDeleteClick = {
                         CoroutineScope(Dispatchers.IO).launch {
                             try{
@@ -62,7 +62,7 @@ fun FavoriteAccountsScreen(navController: NavController) {
                                 accountsdb = withContext(Dispatchers.IO){
                                     accountDao.getAll()
                                 }
-                                Log.d("debug-db", "Account deleted successfully")
+
                             } catch(exception: Exception) {
                                 Log.d("debug-db", "ERROR: $exception")
                             }
